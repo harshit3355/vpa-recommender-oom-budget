@@ -1,48 +1,52 @@
-## design set: 3666 containers, 51201 scored container-days
+## design set: 3164 containers, 44193 scored container-days
 
 | recommender | OOM kills per 1,000 container-days | container-days with an OOM per 1,000 | memory allocated / peak usage | resizes per container-day |
 |---|---:|---:|---:|---:|
-| vpa p90 margin 15% (default) | 1176.17 | 77.73 | 1.444 | 0.25 |
-| vpa as shipped (250 MiB floor) (default) | 68.44 | 17.73 | 1.475 | 0.20 |
-| krr simple buffer 15% (default) | 19.49 | 16.03 | 1.516 | 0.03 |
-| krr simple buffer 30% | 11.97 | 9.92 | 1.715 | 0.04 |
-| krr simple buffer 50% | 6.48 | 5.68 | 1.985 | 0.04 |
-| krr simple buffer 100% | 1.89 | 1.72 | 2.655 | 0.04 |
-| budget 0.03/day, base 24h, step scale | 32.50 | 24.57 | 2.121 | 0.60 |
-| budget 0.01/day, base 24h, step scale | 11.70 | 8.98 | 3.296 | 0.56 |
-| budget 0.003/day, base 24h, step scale | 3.16 | 2.91 | 7.561 | 0.95 |
-| budget 0.001/day, base 24h, step scale | 1.21 | 1.21 | 17.099 | 1.08 |
-| budget 0.03/day, base 24h, spread scale | 31.93 | 26.25 | 2.763 | 0.57 |
-| budget 0.01/day, base 24h, spread scale | 10.64 | 8.67 | 4.912 | 0.61 |
-| budget 0.003/day, base 24h, spread scale | 3.77 | 2.97 | 7.968 | 1.15 |
-| budget 0.001/day, base 24h, spread scale | 1.04 | 0.92 | 16.916 | 1.60 |
-| budget 0.03/day, base 24h, relative scale | 32.40 | 24.49 | 1.797 | 0.55 |
-| budget 0.01/day, base 24h, relative scale | 11.74 | 9.04 | 2.566 | 0.64 |
-| budget 0.003/day, base 24h, relative scale | 3.32 | 3.03 | 5.326 | 1.07 |
-| budget 0.001/day, base 24h, relative scale | 1.21 | 1.19 | 11.578 | 1.39 |
-| budget 0.03/day, base 168h, step scale | 27.97 | 24.47 | 1.537 | 0.18 |
-| budget 0.01/day, base 168h, step scale | 9.08 | 8.57 | 2.099 | 0.36 |
-| budget 0.003/day, base 168h, step scale | 2.97 | 2.79 | 3.056 | 0.58 |
-| budget 0.001/day, base 168h, step scale | 1.05 | 1.00 | 4.761 | 1.29 |
-| budget 0.03/day, base 168h, spread scale | 30.92 | 25.55 | 1.643 | 0.36 |
-| budget 0.01/day, base 168h, spread scale | 9.73 | 9.02 | 3.413 | 1.07 |
-| budget 0.003/day, base 168h, spread scale | 2.73 | 2.60 | 6.534 | 1.01 |
-| budget 0.001/day, base 168h, spread scale | 0.94 | 0.88 | 11.647 | 1.39 |
-| budget 0.03/day, base 168h, relative scale | 26.97 | 23.85 | 1.473 | 0.15 |
-| budget 0.01/day, base 168h, relative scale | 9.08 | 8.57 | 1.845 | 0.37 |
-| budget 0.003/day, base 168h, relative scale | 2.97 | 2.79 | 2.485 | 0.37 |
-| budget 0.001/day, base 168h, relative scale | 1.07 | 1.02 | 3.717 | 1.14 |
+| vpa p90 margin 15% (default) | 37.04 | 34.24 | 1.442 | 0.28 |
+| vpa as shipped (250 MiB floor) (default) | 21.00 | 19.35 | 1.455 | 0.22 |
+| krr simple buffer 15% (default) | 14.32 | 11.29 | 1.501 | 0.03 |
+| krr simple buffer 30% | 8.69 | 6.95 | 1.697 | 0.03 |
+| krr simple buffer 50% | 4.82 | 4.23 | 1.965 | 0.04 |
+| krr simple buffer 100% | 1.74 | 1.70 | 2.627 | 0.04 |
+| budget 0.03/day, base 24h, step scale | 35.12 | 26.93 | 2.110 | 0.98 |
+| budget 0.01/day, base 24h, step scale | 12.60 | 9.62 | 3.215 | 0.61 |
+| budget 0.003/day, base 24h, step scale | 3.51 | 3.21 | 6.991 | 1.46 |
+| budget 0.001/day, base 24h, step scale | 1.24 | 1.24 | 17.845 | 1.23 |
+| budget 0.03/day, base 24h, spread scale | 36.29 | 29.57 | 2.661 | 0.65 |
+| budget 0.01/day, base 24h, spread scale | 12.02 | 9.82 | 4.781 | 0.77 |
+| budget 0.003/day, base 24h, spread scale | 4.07 | 3.19 | 7.430 | 1.17 |
+| budget 0.001/day, base 24h, spread scale | 1.02 | 0.93 | 16.212 | 1.79 |
+| budget 0.03/day, base 24h, relative scale | 34.69 | 26.75 | 1.784 | 0.87 |
+| budget 0.01/day, base 24h, relative scale | 12.60 | 9.71 | 2.501 | 0.67 |
+| budget 0.003/day, base 24h, relative scale | 3.60 | 3.30 | 4.975 | 1.29 |
+| budget 0.001/day, base 24h, relative scale | 1.15 | 1.15 | 11.866 | 1.23 |
+| budget 0.03/day, base 168h, step scale | 32.20 | 26.45 | 1.460 | 0.29 |
+| budget 0.01/day, base 168h, step scale | 10.66 | 9.41 | 1.942 | 0.20 |
+| budget 0.003/day, base 168h, step scale | 3.03 | 2.81 | 2.931 | 0.62 |
+| budget 0.001/day, base 168h, step scale | 0.95 | 0.88 | 4.758 | 0.91 |
+| budget 0.03/day, base 168h, spread scale | 32.15 | 26.00 | 1.556 | 0.18 |
+| budget 0.01/day, base 168h, spread scale | 11.45 | 9.53 | 2.646 | 0.88 |
+| budget 0.003/day, base 168h, spread scale | 3.30 | 2.99 | 5.336 | 1.04 |
+| budget 0.001/day, base 168h, spread scale | 1.13 | 1.02 | 9.970 | 1.68 |
+| budget 0.03/day, base 168h, relative scale | 31.07 | 26.00 | 1.413 | 0.35 |
+| budget 0.01/day, base 168h, relative scale | 10.66 | 9.41 | 1.754 | 0.15 |
+| budget 0.003/day, base 168h, relative scale | 3.08 | 2.87 | 2.404 | 0.79 |
+| budget 0.001/day, base 168h, relative scale | 0.91 | 0.84 | 3.692 | 0.73 |
+| budget 0.03/day, base 336h, relative scale | 25.89 | 22.11 | 1.412 | 0.02 |
+| budget 0.01/day, base 336h, relative scale | 9.41 | 7.99 | 1.644 | 0.24 |
+| budget 0.003/day, base 336h, relative scale | 2.78 | 2.76 | 2.279 | 0.25 |
+| budget 0.001/day, base 336h, relative scale | 1.11 | 1.11 | 3.381 | 0.75 |
 
-Matched at equal or lower OOM rate:
+Memory at the same OOM rate (the baseline's sweep, interpolated in log OOM rate between its two nearest settings; negative means the budget recommender needs less):
 
-| budget setting | OOM kills per 1,000 container-days | vs cheapest VPA that is as safe | vs cheapest KRR that is as safe |
-|---|---:|---|---|
+| budget setting | OOM kills per 1,000 container-days | vs VPA (floor off, best of 12 settings) | vs KRR (best of 4 buffers) |
+|---|---:|---:|---:|
 
-| shipped default | OOM kills per 1,000 container-days | cheapest budget setting that is as safe |
-|---|---:|---|
-| vpa p90 margin 15% | 1176.17 | none of the budget settings is this safe |
-| vpa as shipped (250 MiB floor) | 68.44 | none of the budget settings is this safe |
-| krr simple buffer 15% | 19.49 | none of the budget settings is this safe |
+| shipped default | OOM kills per 1,000 container-days | memory / peak | budget recommender at the same OOM rate |
+|---|---:|---:|---:|
+| vpa p90 margin 15% | 37.04 | 1.442 | outside its swept range |
+| vpa as shipped (250 MiB floor) | 21.00 | 1.455 | outside its swept range |
+| krr simple buffer 15% | 14.32 | 1.501 | outside its swept range |
 
 Calibration (budget asked for vs OOM kills that happened):
 

@@ -78,12 +78,21 @@ func load(path string, bytesPerUnit float64) (*dataset, error) {
 			return nil, fmt.Errorf("%s: task %d: %w", path, i, err)
 		}
 		u := make([]float32, nWin)
+		// Zero readings count as missing: the trace reports 0 where the peak
+		// was not measured, a running container's working set is never 0,
+		// and VPA's model ignores every later peak of a 24-hour window that
+		// opens with a 0 sample (ContainerState.addMemorySample in 1.8.1).
+		seen := 0
 		for w, v := range q {
-			if v == math.MaxUint16 {
+			if v == math.MaxUint16 || v == 0 {
 				u[w] = float32(math.NaN())
 			} else {
 				u[w] = float32(float64(v) / 65534 * float64(scale) * bytesPerUnit)
+				seen++
 			}
+		}
+		if float64(seen) < 0.9*float64(nWin) { // the tracegen coverage rule, on real readings
+			continue
 		}
 		d.ids = append(d.ids, fmt.Sprintf("%d/%d", job, task))
 		d.usage = append(d.usage, u)
@@ -247,6 +256,7 @@ func variants() []variant {
 		set    func(*budget.Config)
 	}{
 		{"base 24h", true, func(c *budget.Config) { c.BaseWindows = 24 }},
+		{"base 7 days (the design of held-out run 1)", true, func(c *budget.Config) { c.BaseWindows = 168 }},
 		{"step scale", true, func(c *budget.Config) { c.Scale = budget.ScaleStep }},
 		{"spread scale", true, func(c *budget.Config) { c.Scale = budget.ScaleSpread }},
 		{"per-container calibration", false, func(*budget.Config) {}},
@@ -276,8 +286,11 @@ func gridVariants() []variant {
 			vs = append(vs, v)
 		}
 	}
-	for _, baseW := range []int{24, 168} {
+	for _, baseW := range []int{24, 168, 336} {
 		for _, scale := range []string{budget.ScaleStep, budget.ScaleSpread, budget.ScaleRelative} {
+			if baseW == 336 && scale != budget.ScaleRelative {
+				continue // added after the first grid: KRR's 14-day window, best scale only
+			}
 			for _, b := range []float64{0.03, 0.01, 0.003, 0.001} {
 				cfg := budget.Default
 				cfg.BudgetPerDay, cfg.BaseWindows, cfg.Scale = b, baseW, scale
@@ -346,47 +359,66 @@ func main() {
 	}
 }
 
-// cheapest returns the lowest-memory result of a family whose OOM rate is at
-// most oom, or nil when no configuration of that family is that safe.
-func cheapest(rs []Result, family string, oom float64) *Result {
-	var best *Result
-	for i := range rs {
-		r := &rs[i]
-		if r.Family == family && r.OOMPer1000 <= oom && (best == nil || r.AllocGiBHours < best.AllocGiBHours) {
-			best = r
+// frontier returns the results of a family that no other result of the
+// family beats on both OOM rate and memory, by increasing OOM rate.
+func frontier(rs []Result, family string) []Result {
+	var f []Result
+	for _, r := range rs {
+		if r.Family == family && r.OOMPer1000 > 0 {
+			f = append(f, r)
 		}
 	}
-	return best
+	sort.Slice(f, func(i, j int) bool { return f[i].OOMPer1000 < f[j].OOMPer1000 })
+	var out []Result
+	for _, r := range f {
+		if len(out) == 0 || r.AllocOverPeak < out[len(out)-1].AllocOverPeak {
+			out = append(out, r)
+		}
+	}
+	return out
 }
 
-// matched compares at equal safety: each budget setting against the cheapest
-// VPA and KRR configuration that is at least as safe, each baseline default
-// against the cheapest budget setting that is at least as safe, and the
-// budget asked for against the OOM rate that came out.
+// at returns the frontier's memory (allocated/peak) at an OOM rate, linear in
+// log(OOM rate) between neighbouring settings; ok is false outside the range
+// the family's settings cover, where any number would be an extrapolation.
+func at(f []Result, oom float64) (float64, bool) {
+	for i := 0; i+1 < len(f); i++ {
+		lo, hi := f[i], f[i+1]
+		if oom >= lo.OOMPer1000 && oom <= hi.OOMPer1000 {
+			t := math.Log(oom/lo.OOMPer1000) / math.Log(hi.OOMPer1000/lo.OOMPer1000)
+			return lo.AllocOverPeak + t*(hi.AllocOverPeak-lo.AllocOverPeak), true
+		}
+	}
+	return 0, false
+}
+
+// matched compares memory at the same OOM rate, read off each family's own
+// sweep, and the budget asked for against the OOM rate that came out.
 func matched(b *strings.Builder, rs []Result) {
-	saving := func(ours, theirs *Result) string {
-		if theirs == nil {
-			return "none of its settings is this safe"
+	vs := func(mem float64, f []Result, oom float64) string {
+		theirs, ok := at(f, oom)
+		if !ok {
+			return "outside its swept range"
 		}
-		return fmt.Sprintf("%+.1f%% memory vs %s", (ours.AllocGiBHours/theirs.AllocGiBHours-1)*100, theirs.Name)
+		return fmt.Sprintf("%+.1f%%", (mem/theirs-1)*100)
 	}
-	b.WriteString("Matched at equal or lower OOM rate:\n\n| budget setting | OOM kills per 1,000 container-days | vs cheapest VPA that is as safe | vs cheapest KRR that is as safe |\n|---|---:|---|---|\n")
-	for i := range rs {
-		if r := &rs[i]; r.Family == "budget" {
-			fmt.Fprintf(b, "| %s | %.2f | %s | %s |\n", r.Name, r.OOMPer1000, saving(r, cheapest(rs, "vpa", r.OOMPer1000)), saving(r, cheapest(rs, "krr", r.OOMPer1000)))
+	vpaF, krrF, ours := frontier(rs, "vpa"), frontier(rs, "krr"), frontier(rs, "budget")
+	b.WriteString("Memory at the same OOM rate (the baseline's sweep, interpolated in log OOM rate between its two nearest settings; negative means the budget recommender needs less):\n\n| budget setting | OOM kills per 1,000 container-days | vs VPA (floor off, best of 12 settings) | vs KRR (best of 4 buffers) |\n|---|---:|---:|---:|\n")
+	for _, r := range rs {
+		if r.Family == "budget" {
+			fmt.Fprintf(b, "| %s | %.2f | %s | %s |\n", r.Name, r.OOMPer1000, vs(r.AllocOverPeak, vpaF, r.OOMPer1000), vs(r.AllocOverPeak, krrF, r.OOMPer1000))
 		}
 	}
-	b.WriteString("\n| shipped default | OOM kills per 1,000 container-days | cheapest budget setting that is as safe |\n|---|---:|---|\n")
-	for i := range rs {
-		r := &rs[i]
+	b.WriteString("\n| shipped default | OOM kills per 1,000 container-days | memory / peak | budget recommender at the same OOM rate |\n|---|---:|---:|---:|\n")
+	for _, r := range rs {
 		if !r.Default || r.Family == "budget" {
 			continue
 		}
-		if ours := cheapest(rs, "budget", r.OOMPer1000); ours != nil {
-			fmt.Fprintf(b, "| %s | %.2f | %s at %.2f: %+.1f%% memory |\n", r.Name, r.OOMPer1000, ours.Name, ours.OOMPer1000, (ours.AllocGiBHours/r.AllocGiBHours-1)*100)
-		} else {
-			fmt.Fprintf(b, "| %s | %.2f | none of the budget settings is this safe |\n", r.Name, r.OOMPer1000)
+		cell := "outside its swept range"
+		if m, ok := at(ours, r.OOMPer1000); ok {
+			cell = fmt.Sprintf("%.3f (%+.1f%%)", m, (m/r.AllocOverPeak-1)*100)
 		}
+		fmt.Fprintf(b, "| %s | %.2f | %.3f | %s |\n", r.Name, r.OOMPer1000, r.AllocOverPeak, cell)
 	}
 	b.WriteString("\nCalibration (budget asked for vs OOM kills that happened):\n\n| budget, OOM kills per container-day | realized |\n|---:|---:|\n")
 	for _, r := range rs {

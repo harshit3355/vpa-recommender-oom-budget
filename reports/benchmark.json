@@ -1,0 +1,580 @@
+{
+  "dataset": "google2011-mem-test.bin.gz",
+  "gib_per_unit": 64,
+  "results": {
+    "held-out test set": [
+      {
+        "name": "vpa p90 margin 15%",
+        "family": "vpa",
+        "default": true,
+        "params": {
+          "safety_margin_fraction": 0.15,
+          "target_memory_percentile": 0.9
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 1697,
+        "oom_kills_per_1000_container_days": 38.222179399989614,
+        "container_days_with_oom_per_1000": 34.95628899751554,
+        "allocated_over_peak_usage": 1.4475510688692144,
+        "resizes_per_container_day": 0.2772853568610914,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 3045592.936616611,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "vpa p90 margin 30%",
+        "family": "vpa",
+        "params": {
+          "safety_margin_fraction": 0.3,
+          "target_memory_percentile": 0.9
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 1009,
+        "oom_kills_per_1000_container_days": 22.72609252480231,
+        "container_days_with_oom_per_1000": 21.12693239669432,
+        "allocated_over_peak_usage": 1.6315493236276426,
+        "resizes_per_container_day": 0.29084443287688033,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 3432718.3355704523,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "vpa p90 margin 50%",
+        "family": "vpa",
+        "params": {
+          "safety_margin_fraction": 0.5,
+          "target_memory_percentile": 0.9
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 499,
+        "oom_kills_per_1000_container_days": 11.239167660928,
+        "container_days_with_oom_per_1000": 10.608512962519216,
+        "allocated_over_peak_usage": 1.882986269170333,
+        "resizes_per_container_day": 0.29929070115914086,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 3961732.200309245,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "vpa p90 margin 100%",
+        "family": "vpa",
+        "params": {
+          "safety_margin_fraction": 1,
+          "target_memory_percentile": 0.9
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 198,
+        "oom_kills_per_1000_container_days": 4.459629653033556,
+        "container_days_with_oom_per_1000": 4.121778921743134,
+        "allocated_over_peak_usage": 2.5132774376738447,
+        "resizes_per_container_day": 0.30519182726568017,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 5287841.0831590025,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "vpa p95 margin 15%",
+        "family": "vpa",
+        "params": {
+          "safety_margin_fraction": 0.15,
+          "target_memory_percentile": 0.95
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 1338,
+        "oom_kills_per_1000_container_days": 30.136285231105543,
+        "container_days_with_oom_per_1000": 27.185722177835867,
+        "allocated_over_peak_usage": 1.4710705153652293,
+        "resizes_per_container_day": 0.2173055903659987,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 3095076.966342313,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "vpa p95 margin 30%",
+        "family": "vpa",
+        "params": {
+          "safety_margin_fraction": 0.3,
+          "target_memory_percentile": 0.95
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 804,
+        "oom_kills_per_1000_container_days": 18.108799197166558,
+        "container_days_with_oom_per_1000": 16.667302743660763,
+        "allocated_over_peak_usage": 1.6578430756301885,
+        "resizes_per_container_day": 0.22811681376729218,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 3488039.3996063196,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "vpa p95 margin 50%",
+        "family": "vpa",
+        "params": {
+          "safety_margin_fraction": 0.5,
+          "target_memory_percentile": 0.95
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 401,
+        "oom_kills_per_1000_container_days": 9.031876216497253,
+        "container_days_with_oom_per_1000": 8.58140857477669,
+        "allocated_over_peak_usage": 1.913050962652779,
+        "resizes_per_container_day": 0.23485130501101456,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 4024987.1832116502,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "vpa p95 margin 100%",
+        "family": "vpa",
+        "params": {
+          "safety_margin_fraction": 1,
+          "target_memory_percentile": 0.95
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 155,
+        "oom_kills_per_1000_container_days": 3.4911242233343494,
+        "container_days_with_oom_per_1000": 3.2433670203880403,
+        "allocated_over_peak_usage": 2.55380795933518,
+        "resizes_per_container_day": 0.23971635554159662,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 5373115.774424697,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "vpa p99 margin 15%",
+        "family": "vpa",
+        "params": {
+          "safety_margin_fraction": 0.15,
+          "target_memory_percentile": 0.99
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 881,
+        "oom_kills_per_1000_container_days": 19.84309961779072,
+        "container_days_with_oom_per_1000": 17.74842508379011,
+        "allocated_over_peak_usage": 1.5066306094626862,
+        "resizes_per_container_day": 0.14532086121905302,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 3169894.065191364,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "vpa p99 margin 30%",
+        "family": "vpa",
+        "params": {
+          "safety_margin_fraction": 0.3,
+          "target_memory_percentile": 0.99
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 536,
+        "oom_kills_per_1000_container_days": 12.07253279811104,
+        "container_days_with_oom_per_1000": 11.01393384006772,
+        "allocated_over_peak_usage": 1.700057396789045,
+        "resizes_per_container_day": 0.1522805862836357,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 3576856.7416058057,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "vpa p99 margin 50%",
+        "family": "vpa",
+        "params": {
+          "safety_margin_fraction": 0.5,
+          "target_memory_percentile": 0.99
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 297,
+        "oom_kills_per_1000_container_days": 6.689444479550334,
+        "container_days_with_oom_per_1000": 6.4867340407760805,
+        "allocated_over_peak_usage": 1.9624883726483326,
+        "resizes_per_container_day": 0.15676273931875528,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 4129001.6321144416,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "vpa p99 margin 100%",
+        "family": "vpa",
+        "params": {
+          "safety_margin_fraction": 1,
+          "target_memory_percentile": 0.99
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 109,
+        "oom_kills_per_1000_container_days": 2.4550486473770583,
+        "container_days_with_oom_per_1000": 2.342431736946918,
+        "allocated_over_peak_usage": 2.619712485963362,
+        "resizes_per_container_day": 0.16000610633914333,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 5511776.41659924,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "vpa as shipped (250 MiB floor)",
+        "family": "vpa-floor",
+        "default": true,
+        "params": {
+          "pod_min_memory_mb": 250,
+          "safety_margin_fraction": 0.15,
+          "target_memory_percentile": 0.9
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 985,
+        "oom_kills_per_1000_container_days": 22.185531354737638,
+        "container_days_with_oom_per_1000": 20.068333438651003,
+        "allocated_over_peak_usage": 1.461165848363538,
+        "resizes_per_container_day": 0.21685512272427815,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 3074237.919963483,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "krr simple buffer 15%",
+        "family": "krr",
+        "default": true,
+        "params": {
+          "history_hours": 336,
+          "memory_buffer_fraction": 0.15,
+          "oom_buffer_fraction": 0.25
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 746,
+        "oom_kills_per_1000_container_days": 16.802443036176932,
+        "container_days_with_oom_per_1000": 12.38786014731543,
+        "allocated_over_peak_usage": 1.5196170675391123,
+        "resizes_per_container_day": 0.026307310276480773,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 3197217.083936483,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "krr simple buffer 30%",
+        "family": "krr",
+        "params": {
+          "history_hours": 336,
+          "memory_buffer_fraction": 0.3,
+          "oom_buffer_fraction": 0.25
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 468,
+        "oom_kills_per_1000_container_days": 10.540942816261131,
+        "container_days_with_oom_per_1000": 7.748043437593652,
+        "allocated_over_peak_usage": 1.7174211992319781,
+        "resizes_per_container_day": 0.03178049212338559,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 3613389.528054794,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "krr simple buffer 50%",
+        "family": "krr",
+        "params": {
+          "history_hours": 336,
+          "memory_buffer_fraction": 0.5,
+          "oom_buffer_fraction": 0.25
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 266,
+        "oom_kills_per_1000_container_days": 5.991219634883463,
+        "container_days_with_oom_per_1000": 4.887573912668088,
+        "allocated_over_peak_usage": 1.9888945034128978,
+        "resizes_per_container_day": 0.033897690039472225,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 4184559.1368336068,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "krr simple buffer 100%",
+        "family": "krr",
+        "params": {
+          "history_hours": 336,
+          "memory_buffer_fraction": 1,
+          "oom_buffer_fraction": 0.25
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 92,
+        "oom_kills_per_1000_container_days": 2.0721511519145817,
+        "container_days_with_oom_per_1000": 1.914487477312385,
+        "allocated_over_peak_usage": 2.6582719447069656,
+        "resizes_per_container_day": 0.03590227104512873,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 5592904.065712869,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "budget 0.1/day",
+        "family": "budget",
+        "params": {
+          "budget_oom_per_container_day": 0.1
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 2734,
+        "oom_kills_per_1000_container_days": 61.578926623200715,
+        "container_days_with_oom_per_1000": 53.312845397628415,
+        "allocated_over_peak_usage": 1.3901323109436785,
+        "resizes_per_container_day": 0.011284214425100057,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 2924786.032232977,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "budget 0.03/day",
+        "family": "budget",
+        "params": {
+          "budget_oom_per_container_day": 0.03
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 1207,
+        "oom_kills_per_1000_container_days": 27.185722177835867,
+        "container_days_with_oom_per_1000": 21.71254033093105,
+        "allocated_over_peak_usage": 1.4312470848110532,
+        "resizes_per_container_day": 0.016487115686972538,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 3011289.968138246,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "budget 0.01/day",
+        "family": "budget",
+        "params": {
+          "budget_oom_per_container_day": 0.01
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 449,
+        "oom_kills_per_1000_container_days": 10.112998556626598,
+        "container_days_with_oom_per_1000": 8.040847404712018,
+        "allocated_over_peak_usage": 1.7220862588088095,
+        "resizes_per_container_day": 0.3152372556760487,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 3623204.637726325,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "budget 0.003/day",
+        "family": "budget",
+        "params": {
+          "budget_oom_per_container_day": 0.003
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 132,
+        "oom_kills_per_1000_container_days": 2.9730864353557034,
+        "container_days_with_oom_per_1000": 2.815422760753507,
+        "allocated_over_peak_usage": 2.385623297296276,
+        "resizes_per_container_day": 0.32174651309891084,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 5019261.579040024,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "budget 0.001/day",
+        "family": "budget",
+        "default": true,
+        "params": {
+          "budget_oom_per_container_day": 0.001
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 30,
+        "oom_kills_per_1000_container_days": 0.6757014625808417,
+        "container_days_with_oom_per_1000": 0.6081313163227575,
+        "allocated_over_peak_usage": 3.633464438652982,
+        "resizes_per_container_day": 0.6776159500581541,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 7644672.348902792,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "budget 0.01/day, base 24h",
+        "family": "ablation",
+        "params": {
+          "budget_oom_per_container_day": 0.01
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 537,
+        "oom_kills_per_1000_container_days": 12.095056180197068,
+        "container_days_with_oom_per_1000": 9.64000753282001,
+        "allocated_over_peak_usage": 2.5466401681980773,
+        "resizes_per_container_day": 0.8719476906964042,
+        "unsized_windows": 529,
+        "allocated_gib_hours": 5358035.011798923,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "budget 0.001/day, base 24h",
+        "family": "ablation",
+        "params": {
+          "budget_oom_per_container_day": 0.001
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 71,
+        "oom_kills_per_1000_container_days": 1.5991601281079921,
+        "container_days_with_oom_per_1000": 1.5991601281079921,
+        "allocated_over_peak_usage": 9.230390619329137,
+        "resizes_per_container_day": 1.0039797564847006,
+        "unsized_windows": 529,
+        "allocated_gib_hours": 19420394.26242927,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "budget 0.01/day, base 7 days (the design of held-out run 1)",
+        "family": "ablation",
+        "params": {
+          "budget_oom_per_container_day": 0.01
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 485,
+        "oom_kills_per_1000_container_days": 10.923840311723607,
+        "container_days_with_oom_per_1000": 9.302156801529588,
+        "allocated_over_peak_usage": 1.8151566836098227,
+        "resizes_per_container_day": 0.2945157441569029,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 3819021.3066354915,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "budget 0.001/day, base 7 days (the design of held-out run 1)",
+        "family": "ablation",
+        "params": {
+          "budget_oom_per_container_day": 0.001
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 26,
+        "oom_kills_per_1000_container_days": 0.5856079342367295,
+        "container_days_with_oom_per_1000": 0.4955144058926173,
+        "allocated_over_peak_usage": 3.660191670189196,
+        "resizes_per_container_day": 0.5853376536516972,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 7700905.437553403,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "budget 0.01/day, step scale",
+        "family": "ablation",
+        "params": {
+          "budget_oom_per_container_day": 0.01
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 459,
+        "oom_kills_per_1000_container_days": 10.338232377486879,
+        "container_days_with_oom_per_1000": 8.040847404712018,
+        "allocated_over_peak_usage": 1.8547505714183155,
+        "resizes_per_container_day": 0.24784729647465276,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 3902325.3555468265,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "budget 0.001/day, step scale",
+        "family": "ablation",
+        "params": {
+          "budget_oom_per_container_day": 0.001
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 37,
+        "oom_kills_per_1000_container_days": 0.8333651371830382,
+        "container_days_with_oom_per_1000": 0.765794990924954,
+        "allocated_over_peak_usage": 4.647117181799814,
+        "resizes_per_container_day": 0.805075769282987,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 9777359.548064377,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "budget 0.01/day, spread scale",
+        "family": "ablation",
+        "params": {
+          "budget_oom_per_container_day": 0.01
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 470,
+        "oom_kills_per_1000_container_days": 10.585989580433187,
+        "container_days_with_oom_per_1000": 7.905707112195848,
+        "allocated_over_peak_usage": 2.3554625705020955,
+        "resizes_per_container_day": 0.6926615692916209,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 4955804.54566618,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "budget 0.001/day, spread scale",
+        "family": "ablation",
+        "params": {
+          "budget_oom_per_container_day": 0.001
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 39,
+        "oom_kills_per_1000_container_days": 0.8784119013550943,
+        "container_days_with_oom_per_1000": 0.765794990924954,
+        "allocated_over_peak_usage": 9.7961476888711,
+        "resizes_per_container_day": 1.278877634844673,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 20610725.83130713,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "budget 0.01/day, per-container calibration",
+        "family": "ablation",
+        "params": {
+          "budget_oom_per_container_day": 0.01
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 11772,
+        "oom_kills_per_1000_container_days": 265.14525391672225,
+        "container_days_with_oom_per_1000": 61.6464967694588,
+        "allocated_over_peak_usage": 1.449470303232188,
+        "resizes_per_container_day": 0.44242679431584914,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 3049630.933441242,
+        "peak_usage_gib_hours": 2103962.341719482
+      },
+      {
+        "name": "budget 0.001/day, per-container calibration",
+        "family": "ablation",
+        "params": {
+          "budget_oom_per_container_day": 0.001
+        },
+        "containers": 3179,
+        "container_days": 44398.305555555555,
+        "oom_kills": 7740,
+        "oom_kills_per_1000_container_days": 174.33097734585718,
+        "container_days_with_oom_per_1000": 42.34395832173275,
+        "allocated_over_peak_usage": 1.5497298878548482,
+        "resizes_per_container_day": 0.5569807156053879,
+        "unsized_windows": 0,
+        "allocated_gib_hours": 3260573.323883757,
+        "peak_usage_gib_hours": 2103962.341719482
+      }
+    ]
+  },
+  "warmup_days": 7,
+  "windows": 6048
+}

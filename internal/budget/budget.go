@@ -5,7 +5,7 @@
 //	limit = base + scale * q
 //
 // where base is the container's highest hourly peak over the last BaseWindows
-// (7 days), scale is base itself by default (so the margin is a percentage),
+// (14 days), scale is base itself by default (so the margin is a percentage),
 // and q is one threshold shared by the whole fleet. q is read from the pooled
 // history of "surprises" (next-hour peak minus base, divided by scale) of every
 // managed container, so that P(next-hour peak > limit) equals the per-hour
@@ -56,7 +56,7 @@ const (
 var Default = Config{
 	BudgetPerDay:   0.001,
 	WindowsPerDay:  24,
-	BaseWindows:    168,
+	BaseWindows:    336,
 	MinWindows:     12,
 	HistoryWindows: 168,
 	OOMBump:        1.2,

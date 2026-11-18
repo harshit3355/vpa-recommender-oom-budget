@@ -21,11 +21,6 @@ jobs:
       - run: go vet ./...
       - run: go test -race -count=1 ./...
       - run: go build -trimpath -o /tmp/vpa-recommender-oom-budget .
-      - name: Committed benchmark report is reproducible
-        if: hashFiles('data/google2011-mem-test.bin.gz') != ''
-        run: |
-          go run ./cmd/bench
-          git diff --exit-code reports/benchmark.json reports/benchmark.md
 
   e2e:
     needs: test

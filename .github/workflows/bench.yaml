@@ -1,0 +1,28 @@
+name: bench
+
+# The held-out benchmark takes ~40 minutes on a hosted runner, so it runs only
+# when something that can change its numbers changes, or on demand.
+on:
+  push:
+    branches: [main]
+    paths: [cmd/bench/**, internal/budget/**, data/**, reports/benchmark.*, go.mod, go.sum]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
+        with:
+          go-version-file: go.mod
+      - name: Datasets match their published checksums
+        run: sha256sum -c data/SHA256SUMS
+      - name: Committed held-out report is reproducible
+        run: |
+          go run ./cmd/bench
+          git diff --exit-code reports/benchmark.json reports/benchmark.md
