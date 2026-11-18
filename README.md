@@ -137,7 +137,7 @@ The benchmark uses the Google cluster-usage trace `clusterdata-2011-2` (Reiss, W
 ```bash
 go run ./cmd/tracegen -candidate-residue 0 -out data/google2011-mem.bin.gz        # design set, 3,666 tasks
 go run ./cmd/tracegen -candidate-residue 1 -out data/google2011-mem-test.bin.gz   # held-out set, 3,673 tasks
-sha256sum -c data/SHA256SUMS
+(cd data && sha256sum -c SHA256SUMS)
 go run ./cmd/bench                                                                  # reports/benchmark.{md,json}
 go run ./cmd/bench -data data/google2011-mem.bin.gz -set "design set" -grid -out reports/design
 ```

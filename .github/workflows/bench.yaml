@@ -5,7 +5,7 @@ name: bench
 on:
   push:
     branches: [main]
-    paths: [cmd/bench/**, internal/budget/**, data/**, reports/benchmark.*, go.mod, go.sum]
+    paths: [cmd/bench/**, internal/budget/**, data/**, reports/benchmark.*, go.mod, go.sum, .github/workflows/bench.yaml]
   workflow_dispatch:
 
 permissions:
@@ -21,7 +21,7 @@ jobs:
         with:
           go-version-file: go.mod
       - name: Datasets match their published checksums
-        run: sha256sum -c data/SHA256SUMS
+        run: cd data && sha256sum -c SHA256SUMS
       - name: Committed held-out report is reproducible
         run: |
           go run ./cmd/bench
