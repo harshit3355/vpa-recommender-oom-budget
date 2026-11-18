@@ -1,0 +1,6 @@
+/vpa-recommender-oom-budget
+/dist/
+/data/*.log
+/e2e-out/
+/scripts/
+/reports/e2e/

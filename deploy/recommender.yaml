@@ -1,0 +1,110 @@
+# Installs the oom-budget recommender next to an existing VPA installation.
+# VPAs opt in with spec.recommenders: [{name: oom-budget}]; all other VPAs stay
+# with the default recommender. Set --prometheus-url to a Prometheus that
+# scrapes the kubelets' cAdvisor endpoint (container_memory_working_set_bytes).
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vpa-oom-budget-recommender
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: vpa-oom-budget-recommender
+rules:
+  - apiGroups: [autoscaling.k8s.io]
+    resources: [verticalpodautoscalers]
+    verbs: [get, list]
+  - apiGroups: [autoscaling.k8s.io]
+    resources: [verticalpodautoscalers/status]
+    verbs: [patch]
+  - apiGroups: [apps]
+    resources: [deployments, statefulsets, daemonsets, replicasets]
+    verbs: [get]
+  - apiGroups: [""]
+    resources: [pods]
+    verbs: [list]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: vpa-oom-budget-recommender
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: vpa-oom-budget-recommender
+subjects:
+  - kind: ServiceAccount
+    name: vpa-oom-budget-recommender
+    namespace: kube-system
+---
+# OOM kills are remembered in one ConfigMap, because the pods that report
+# them are the ones the VPA updater evicts.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: vpa-oom-budget-recommender
+  namespace: kube-system
+rules:
+  - apiGroups: [""]
+    resources: [configmaps]
+    verbs: [get, create, update]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: vpa-oom-budget-recommender
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: vpa-oom-budget-recommender
+subjects:
+  - kind: ServiceAccount
+    name: vpa-oom-budget-recommender
+    namespace: kube-system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vpa-oom-budget-recommender
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vpa-oom-budget-recommender
+  template:
+    metadata:
+      labels:
+        app: vpa-oom-budget-recommender
+    spec:
+      serviceAccountName: vpa-oom-budget-recommender
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: recommender
+          image: ghcr.io/harshit3355/vpa-recommender-oom-budget:v0.1.0
+          args:
+            - --prometheus-url=http://prometheus.monitoring.svc:9090
+            - --budget=0.001
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          resources:
+            requests:
+              cpu: 20m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]

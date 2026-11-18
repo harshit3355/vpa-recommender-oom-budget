@@ -1,0 +1,88 @@
+# memhog is sized by the oom-budget recommender and resized by the real VPA
+# updater and admission controller. plain keeps the default VPA recommender,
+# to show the two recommenders leave each other's VPAs alone.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memhog
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: memhog
+  template:
+    metadata:
+      labels:
+        app: memhog
+    spec:
+      containers:
+        - name: memhog
+          image: memhog:e2e
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MEM_MIB
+              value: "40"
+          resources:
+            requests:
+              cpu: 10m
+              memory: 160Mi
+            limits:
+              memory: 160Mi
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: memhog
+spec:
+  recommenders:
+    - name: oom-budget
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: memhog
+  updatePolicy:
+    updateMode: Recreate
+  resourcePolicy:
+    containerPolicies:
+      - containerName: "*"
+        controlledResources: [memory]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plain
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plain
+  template:
+    metadata:
+      labels:
+        app: plain
+    spec:
+      containers:
+        - name: plain
+          image: memhog:e2e
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MEM_MIB
+              value: "10"
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              memory: 64Mi
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: plain
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: plain
+  updatePolicy:
+    updateMode: "Off"
